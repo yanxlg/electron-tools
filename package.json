@@ -1,0 +1,32 @@
+{
+  "name": "electron-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "dependencies": {
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "electron": "^9.0.2",
+    "electron-builder": "^22.7.0",
+    "electron-webpack": "^2.8.2",
+    "webpack": "^4.43.0",
+    "prettier": "^1.19.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanxlg/electron-tools.git"
+  },
+  "author": "yanxlg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanxlg/electron-tools/issues"
+  },
+  "homepage": "https://github.com/yanxlg/electron-tools#readme"
+}

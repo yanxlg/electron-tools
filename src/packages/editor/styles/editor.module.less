@@ -1,0 +1,38 @@
+@import '../styles/themes/default';
+
+.editWrapper {
+    width: 100%;
+    position: relative;
+    height: 100vh;
+    background: @edit-bg-color;
+    overflow: hidden;
+
+    > div {
+        height: 100%;
+        float: left;
+    }
+}
+
+.editLeftView {
+    width: ~'calc(100% - 288px)';
+}
+
+.editRightView {
+    width: 288px;
+    border-left: 1px solid @edit-line-color;
+}
+
+.editContentWrapper {
+    height: calc(100% - 64px);
+    position: relative;
+}
+
+.editStageWrapper {
+    display: inline-block;
+    width: calc(100% - 40px);
+    height: 100%;
+    position: absolute;
+    margin-left: 40px;
+    left: 0;
+    top: 0;
+}
