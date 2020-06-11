@@ -1,0 +1,43 @@
+@import './themes/default';
+
+.page {
+    width: 100%;
+    position: relative;
+    height: 100vh;
+    background: @edit-bg-color;
+    overflow: hidden;
+    &-content {
+        top: 60px;
+        bottom: 0;
+        width: 100%;
+        position: absolute;
+    }
+    &-main {
+        height: 100%;
+        position: absolute;
+        left: @asideWidth;
+        top: 0;
+        right: 0;
+        transition: all 300ms ease;
+        &-fold {
+            left: @asideFoldWidth;
+        }
+    }
+    &-container {
+        position: absolute;
+        width: 100%;
+        top: 30px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        height: 100%;
+        transition: width 0.15s @ease-in-out, max-height 0.15s @ease-in-out,
+            top 0.15s @ease-in-out;
+        background: #333;
+        overflow: hidden;
+    }
+    &-scroll {
+        overflow-y: auto;
+    }
+}

@@ -1,0 +1,44 @@
+@import '../../node_modules/antd/es/style/themes/default';
+@import 'themes/default';
+
+input {
+    -moz-box-shadow: inset 0 0 10px @inputShadow;
+    -webkit-box-shadow: inset 0 0 10px @inputShadow;
+    box-shadow: inset 0 0 10px @inputShadow;
+}
+
+.flex {
+    display: flex;
+    &-row {
+        &:extend(.flex);
+        flex-direction: row;
+    }
+    &-column {
+        &:extend(.flex);
+        flex-direction: column;
+    }
+    &-fill {
+        flex: 1;
+    }
+    &-align {
+        align-items: center;
+    }
+    &-justify {
+        justify-content: center;
+    }
+    &-inline {
+        display: inline-flex;
+    }
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.block-align-top {
+    vertical-align: top;
+}
+
+.text-center {
+    text-align: center;
+}

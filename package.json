@@ -1,32 +1,41 @@
 {
-  "name": "electron-tools",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "electron-webpack dev",
-    "compile": "electron-webpack",
-    "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
-  },
-  "dependencies": {
-    "source-map-support": "^0.5.19"
-  },
-  "devDependencies": {
-    "electron": "^9.0.2",
-    "electron-builder": "^22.7.0",
-    "electron-webpack": "^2.8.2",
-    "webpack": "^4.43.0",
-    "prettier": "^1.19.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yanxlg/electron-tools.git"
-  },
-  "author": "yanxlg",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yanxlg/electron-tools/issues"
-  },
-  "homepage": "https://github.com/yanxlg/electron-tools#readme"
+    "name": "electron-tools",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "lint": "tslint -c tslint.json -p tsconfig.json",
+        "start": "npm run build && electron ./dist/index.js",
+        "driver": "npm run build && node ./dist/driver.js"
+    },
+    "dependencies": {
+        "browser-sync": "^2.26.7",
+        "electron": "9.0.3",
+        "electron-json-storage": "^4.1.8",
+        "source-map-support": "^0.5.19",
+        "electron-store": "^5.2.0"
+    },
+    "devDependencies": {
+        "@types/electron-store": "^3.2.0",
+        "@types/electron-json-storage": "^4.0.0",
+        "@types/node": "^14.0.10",
+        "@types/browser-sync": "^2.26.1",
+        "@types/electron": "^1.6.10",
+        "electron-builder": "^22.7.0",
+        "prettier": "^1.19.1",
+        "typescript": "^3.9.5",
+        "dotenv": "^8.2.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yanxlg/electron-tools.git"
+    },
+    "author": "yanxlg",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/yanxlg/electron-tools/issues"
+    },
+    "homepage": "https://github.com/yanxlg/electron-tools#readme"
 }

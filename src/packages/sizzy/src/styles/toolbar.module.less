@@ -1,0 +1,67 @@
+@import './themes/default';
+
+.toolbar {
+    height: @toolbarHeight;
+    width: 100%;
+    color: @edit-text-color;
+    line-height: 64px;
+    border-bottom: 1px solid @edit-line-color;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 20px;
+    &-input {
+        flex: 1;
+    }
+    &-anchor {
+        flex: 1;
+        margin-left: 5px;
+        &-wrap {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 0;
+            transition: all 300ms ease;
+            overflow: hidden;
+            &:after {
+                content: '';
+                display: block;
+                width: 1px;
+                height: 20px;
+                background-color: #666;
+                margin-left: 10px;
+            }
+        }
+        &-show {
+            width: 300px;
+        }
+    }
+    &-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        color: #cccccc;
+        margin-left: 10px;
+        cursor: pointer;
+        &-hide {
+            display: none;
+        }
+    }
+}
+
+.popover {
+    :global .ant-popover-inner .ant-popover-inner-content {
+        padding: 0;
+    }
+    :global .ant-popover-arrow {
+        border-top-color: rgb(10, 10, 10) !important;
+        border-left-color: rgb(10, 10, 10) !important;
+    }
+    :global .ant-popover-inner {
+        background-color: rgb(10, 10, 10);
+    }
+    &-menu {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+}
