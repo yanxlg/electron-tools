@@ -42,4 +42,5 @@ export default {
             id: 8,
         },
     ],
+    zoom: 75,
 };

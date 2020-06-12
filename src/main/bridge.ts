@@ -1,11 +1,11 @@
 import { ipcMain, webContents } from 'electron';
 import * as browserSync from 'browser-sync';
 
-const bs = browserSync.create();
-
+const bs = browserSync.create('http');
 bs.init({
     server: true,
     open: false,
+    https: true,
 });
 
 ipcMain.on('open-dev', (event, args) => {
@@ -91,5 +91,23 @@ ipcMain.on('snapshot', async (event, args) => {
     const buffer = image.toPNG();
     const fs = require('fs');
     fs.writeFileSync(`${__dirname}/example1.png`, buffer);
+    event.returnValue = 'success';
+});
+
+ipcMain.on('inspect', (event, args) => {
+    const { webviewId } = args;
+    const contents = webContents.fromId(webviewId);
+    contents.inspectServiceWorker();
+    event.returnValue = 'success';
+});
+
+ipcMain.on('touch', (event, args) => {
+    const { webviewId } = args;
+    const contents = webContents.fromId(webviewId);
+    // touch
+    contents.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', {
+        enabled: true,
+        configuration: 'mobile',
+    });
     event.returnValue = 'success';
 });

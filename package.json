@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "main": "./dist/index.js",
+    "homepage":".",
     "scripts": {
         "build": "tsc",
         "watch": "tsc -w",
@@ -36,6 +37,5 @@
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/yanxlg/electron-tools/issues"
-    },
-    "homepage": "https://github.com/yanxlg/electron-tools#readme"
+    }
 }

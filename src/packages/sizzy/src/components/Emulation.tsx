@@ -316,11 +316,6 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
                     </div>
                     <div>
                         <Icons
-                            type="tools-devtool"
-                            className={styles.icon}
-                            onClick={openDev}
-                        />
-                        <Icons
                             type="tools-reload"
                             className={styles.icon}
                             onClick={triggerReload}
@@ -376,6 +371,39 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
                             className={styles.icon}
                             onClick={focusEmulation}
                         />
+                        <Dropdown
+                            overlay={
+                                <Menu>
+                                    <Menu.Item>
+                                        <Icons
+                                            type="tools-devtool"
+                                            className={styles.icon}
+                                            onClick={openDev}
+                                        />
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                        <Icons
+                                            type="tools-touch"
+                                            className={styles.icon}
+                                            onClick={() =>
+                                                webViewReadyPromise.current.promise.then(
+                                                    id => {
+                                                        ipcRenderer.send(
+                                                            'touch',
+                                                            {
+                                                                webviewId: id,
+                                                            },
+                                                        );
+                                                    },
+                                                )
+                                            }
+                                        />
+                                    </Menu.Item>
+                                </Menu>
+                            }
+                        >
+                            <Icons type="tools-more" className={styles.icon} />
+                        </Dropdown>
                     </div>
                 </div>
                 {loading && (

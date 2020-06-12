@@ -20,6 +20,7 @@ const init = async () => {
     }
 
     let userConfig = await storage.get('user');
+    console.log(userConfig);
 
     ipcMain.on('getConfig', event => {
         event.returnValue = {
@@ -28,6 +29,7 @@ const init = async () => {
         };
     });
     ipcMain.handle('updateConfig', (event, args) => {
+        console.log(args);
         return storage.set('user', Object.assign({}, userConfig, args));
     });
 };

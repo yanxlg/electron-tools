@@ -5,6 +5,7 @@ import * as path from 'path';
 import { format as formatUrl } from 'url';
 import './bridge';
 import { init } from './appConfig';
+import * as url from 'url';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -31,7 +32,15 @@ async function createMainWindow() {
     }
 
     if (isDevelopment) {
-        window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+        window.loadURL(
+            url.format({
+                pathname: path.join(__dirname, '../src/packages/sizzy/dist/index.html'),
+                protocol: 'file:',
+                slashes: true,
+            }),
+        );
+
+        // window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
     } else {
         window.loadURL(
             formatUrl({

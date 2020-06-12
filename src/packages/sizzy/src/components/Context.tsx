@@ -221,6 +221,9 @@ const Provider: React.FC = ({ children }) => {
         },
         setZoom: (zoom: number) => {
             setStore(store => {
+                ipcRenderer.invoke('updateConfig', {
+                    zoom: zoom,
+                });
                 return Object.assign({}, store, {
                     zoom: zoom,
                 });
