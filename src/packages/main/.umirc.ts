@@ -6,7 +6,7 @@ export default defineConfig({
     nodeModulesTransform: {
         type: 'none',
     },
-    title: 'sizzy',
+    title: 'tools',
     cssModulesTypescriptLoader: {
         mode: 'emit',
     },

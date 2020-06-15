@@ -25,6 +25,13 @@ ipcMain.on('executeJs', (event, args) => {
     });
 });
 
+ipcMain.on('execute-js', (event, args) => {
+    const { webviewId, js } = args;
+    const contents = webContents.fromId(webviewId);
+    // webview注入js
+    contents.executeJavaScript(js);
+});
+
 ipcMain.on('setNetworkStatus', (event, args) => {
     const { webviewId, networkStatus, customOptions } = args;
     const contents = webContents.fromId(webviewId);
@@ -97,7 +104,14 @@ ipcMain.on('snapshot', async (event, args) => {
 ipcMain.on('inspect', (event, args) => {
     const { webviewId } = args;
     const contents = webContents.fromId(webviewId);
-    contents.inspectServiceWorker();
+    contents.debugger.sendCommand('Inspector.enable');
+    console.log('inspect');
+    contents.openDevTools();
+
+    ipcMain.on('mouse', function(event, e) {
+        contents.inspectElement(e.x, e.y);
+    });
+
     event.returnValue = 'success';
 });
 

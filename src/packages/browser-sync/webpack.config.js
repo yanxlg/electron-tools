@@ -4,7 +4,7 @@ module.exports = {
     entry: path.resolve(__dirname, './export.ts'),
     output: {
         filename: 'browser-sync.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, '../../../static')
     },
     mode: 'production',
     module: {

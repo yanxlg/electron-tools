@@ -14,6 +14,7 @@ import { Dropdown, Menu } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
 import anime from 'animejs';
 import useId from '@/hooks/useId';
+import inspectJs from 'raw-loader!babel-loader!../jsTemplate/inspect';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -40,6 +41,7 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
     const placeholderRef = useRef<HTMLDivElement>(null);
     const animRef = useRef<HTMLDivElement>(null);
     const maskWrapRef = useRef<HTMLDivElement>(null);
+    const [inspect, setInspect] = useState(false);
     const {
         url,
         preload,
@@ -119,6 +121,27 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
     const [networkStatus, setNetworkStatus] = useState<
         'online' | 'low-end' | 'mid-tier' | 'offline' | 'custom'
     >('online');
+
+    const toggleInspect = useCallback(() => {
+        setInspect(inspect => {
+            if (inspect) {
+                webViewReadyPromise.current.promise.then(id => {
+                    ipcRenderer.send('execute-js', {
+                        webviewId: id,
+                        js: 'window._off_inspect()',
+                    });
+                });
+            } else {
+                webViewReadyPromise.current.promise.then(id => {
+                    ipcRenderer.send('execute-js', {
+                        webviewId: id,
+                        js: inspectJs,
+                    });
+                });
+            }
+            return !inspect;
+        });
+    }, []);
 
     const onNetworkChange = useCallback((param: ClickParam) => {
         const networkStatus = param.key as any;
@@ -399,6 +422,14 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
                                             }
                                         />
                                     </Menu.Item>
+                                    <Menu.Item onClick={toggleInspect}>
+                                        <Icons
+                                            type="tools-touch"
+                                            className={classNames(styles.icon, {
+                                                [styles.iconActive]: inspect,
+                                            })}
+                                        />
+                                    </Menu.Item>
                                 </Menu>
                             }
                         >
@@ -414,7 +445,7 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
                 <div className={styles.fullWrap}>{webviewComponent}</div>
             </div>
         );
-    }, [orientation, loading, networkStatus, url, focus, zoom]);
+    }, [orientation, loading, networkStatus, url, focus, zoom, inspect]);
 
     return useMemo(() => {
         return (
@@ -456,6 +487,7 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
         loading,
         focus,
         zoom,
+        inspect,
     ]);
 };
 
