@@ -11,9 +11,10 @@ export function incomingConnection(xs: Observable<IBrowserSyncOptions>, inputs: 
     return xs.pipe(
         withLatestFrom(inputs.option$.pipe(pluck('logPrefix'))),
         mergeMap(([x, logPrefix]) => {
-            const prefix = logPrefix ? `${logPrefix}: ` : '';
+            // const prefix = logPrefix ? `${logPrefix}: ` : '';
 
-            return of<any>(setOptions(x), Log.overlayInfo(`${prefix}connected`));
+            // return of<any>(setOptions(x), Log.overlayInfo(`${prefix}connected`));// rm tooltip显示
+            return of<any>(setOptions(x));
         }),
     );
 }

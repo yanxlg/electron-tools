@@ -16,6 +16,9 @@ declare interface EmulationInstance {
     open: boolean; // 是否打开
     id: string;
     index?: number;
+    width?: number;
+    height?: number;
+    userAgent?: string;
 }
 
 declare interface AppConfig {

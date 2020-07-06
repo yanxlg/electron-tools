@@ -34,7 +34,7 @@ async function createMainWindow() {
     if (isDevelopment) {
         window.loadURL(
             url.format({
-                pathname: path.join(__dirname, '../static/packages/sizzy/index.html'),
+                pathname: path.join(__dirname, '../static/packages/main/index.html'),
                 protocol: 'file:',
                 slashes: true,
             }),

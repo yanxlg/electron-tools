@@ -8,18 +8,18 @@ import React, {
     useState,
 } from 'react';
 import { Modal } from 'antd';
-import JsonForm, { JsonFormRef } from '@/components/JsonForm';
+import JsonForm, { JsonFormRef } from './JsonForm';
 import {
     AndroidOutlined,
     AppleOutlined,
     WindowsOutlined,
 } from '@ant-design/icons/lib';
 import classNames from 'classnames';
-import styles from '@/styles/emulation.module.less';
-import formStyles from '@/components/JsonForm/form.module.less';
-import Icons from '@/components/IconFont';
+import styles from '../styles/emulation.module.less';
+import formStyles from './JsonForm/form.module.less';
+import Icons from './IconFont';
 import { Store } from 'rc-field-form/es/interface';
-import { Context, innerEmulationTypeMap } from '@/components/Context';
+import { Context, innerEmulationTypeMap } from './Context';
 
 declare interface EmulationTypeModalProps {
     visible: boolean | string;

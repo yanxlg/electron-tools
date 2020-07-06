@@ -4,7 +4,7 @@ import { CustomFormProps, FormItemName } from '../index';
 import { FormItemLabelProps } from 'antd/es/form/FormItemLabel';
 import { FormInstance, Rule } from 'antd/es/form';
 import formStyles from '../form.module.less';
-import { FormatterType } from '@/utils/formatter';
+import { FormatterType } from '../../../utils/formatter';
 
 export type InputRangeType = 'inputRange';
 const typeList = ['inputRange'];

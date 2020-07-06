@@ -6,14 +6,14 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import styles from '@/styles/emulation.module.less';
+import styles from '../styles/emulation.module.less';
 import classNames from 'classnames';
-import Icons from '@/components/IconFont';
-import { Context } from '@/components/Context';
+import Icons from './IconFont';
+import { Context } from './Context';
 import { Dropdown, Menu } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
 import anime from 'animejs';
-import useId from '@/hooks/useId';
+import useId from '../hooks/useId';
 import inspectJs from 'raw-loader!babel-loader!../jsTemplate/inspect';
 
 const { ipcRenderer } = window.require('electron');
@@ -21,6 +21,9 @@ const { ipcRenderer } = window.require('electron');
 declare interface EmulationProps {
     deviceType: string;
     deviceName?: string;
+    width?: number;
+    height?: number;
+    userAgent?: string;
 }
 
 const initLoadingPromise = () => {
@@ -35,7 +38,13 @@ const initLoadingPromise = () => {
 };
 
 //TODO session setProxy 设置代理，调用browser-sync
-const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
+const Emulation = ({
+    deviceType,
+    deviceName,
+    width: emuWidth,
+    height: emuHeight,
+    userAgent: emuAgent,
+}: EmulationProps) => {
     const emulationId = useId();
     const webviewRef = useRef<any>(null);
     const placeholderRef = useRef<HTMLDivElement>(null);
@@ -284,15 +293,21 @@ const Emulation = ({ deviceType, deviceName }: EmulationProps) => {
 
     const config = emulationTypeMap[deviceType];
 
-    const width = orientation === 'portrait' ? config.width : config.height;
-    const height = orientation === 'portrait' ? config.height : config.width;
+    const width =
+        orientation === 'portrait'
+            ? emuWidth || config.width
+            : emuHeight || config.height;
+    const height =
+        orientation === 'portrait'
+            ? emuHeight || config.height
+            : emuWidth || config.width;
 
     const webviewComponent = useMemo(() => {
         return (
             <webview
                 ref={webviewRef}
                 src={url}
-                useragent={config.userAgent}
+                useragent={emuAgent || config.userAgent}
                 className={styles.webview}
                 preload={preload ? `file:///${preload}` : undefined}
             />

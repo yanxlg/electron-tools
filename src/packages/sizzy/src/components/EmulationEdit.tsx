@@ -1,20 +1,39 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { RefObject, useEffect, useMemo, useRef } from 'react';
 import { LeftCircleOutlined } from '@ant-design/icons/lib';
-import styles from '@/styles/emulation.module.less';
-import JsonForm, { JsonFormRef } from '@/components/JsonForm';
+import styles from '../styles/emulation.module.less';
+import JsonForm, { JsonFormRef } from './JsonForm';
 import classNames from 'classnames';
-import formStyles from '@/components/JsonForm/form.module.less';
+import formStyles from './JsonForm/form.module.less';
+
+export interface IEditEmulation {
+    deviceName: string;
+    width: number;
+    height: number;
+    userAgent: string;
+    id: string;
+    index?: number;
+}
 
 declare interface EmulationEditProps {
     onBack: () => void;
-    emulation?: EmulationInstance;
+    emulation?: IEditEmulation;
+    originRef: RefObject<JsonFormRef>;
 }
 
-const EmulationEdit = ({ onBack, emulation }: EmulationEditProps) => {
-    const formRef = useRef<JsonFormRef>(null);
+const EmulationEdit = ({
+    onBack,
+    emulation,
+    originRef,
+}: EmulationEditProps) => {
     useEffect(() => {
-        formRef.current!.setFieldsValue({});
-    }, []);
+        originRef.current!.setFieldsValue({
+            deviceName: emulation?.deviceName,
+            userAgent: emulation?.userAgent,
+            width: emulation?.width,
+            height: emulation?.height,
+        });
+    }, [emulation]);
+
     return useMemo(() => {
         return (
             <div>
@@ -23,7 +42,7 @@ const EmulationEdit = ({ onBack, emulation }: EmulationEditProps) => {
                     onClick={onBack}
                 />
                 <JsonForm
-                    ref={formRef}
+                    ref={originRef}
                     enableCollapse={false}
                     fieldList={[
                         {
@@ -49,6 +68,7 @@ const EmulationEdit = ({ onBack, emulation }: EmulationEditProps) => {
                                             message: '请输入设备宽度',
                                         },
                                     ],
+                                    formatter: 'number',
                                 },
                                 {
                                     type: 'positiveInteger',
@@ -65,6 +85,7 @@ const EmulationEdit = ({ onBack, emulation }: EmulationEditProps) => {
                                             message: '请输入设备高度',
                                         },
                                     ],
+                                    formatter: 'number',
                                 },
                             ],
                         },
@@ -89,7 +110,7 @@ const EmulationEdit = ({ onBack, emulation }: EmulationEditProps) => {
                 />
             </div>
         );
-    }, []);
+    }, [emulation]);
 };
 
 export default EmulationEdit;

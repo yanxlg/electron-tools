@@ -13,7 +13,7 @@ import {
     DropResult,
     ResponderProvided,
 } from 'react-beautiful-dnd';
-import { Context } from '@/components/Context';
+import { Context } from './Context';
 import { Divider, List, Modal, Button, Tabs, Popconfirm } from 'antd';
 import {
     AndroidOutlined,
@@ -25,12 +25,12 @@ import {
     LeftCircleOutlined,
     PlusOutlined,
 } from '@ant-design/icons/lib';
-import Icons from '@/components/IconFont';
-import styles from '@/styles/emulation.module.less';
-import EmuInstance from '@/instance/EmulationInstance';
-import JsonForm, { JsonFormRef } from '@/components/JsonForm';
+import Icons from './IconFont';
+import styles from '../styles/emulation.module.less';
+import EmuInstance from '../instance/EmulationInstance';
+import JsonForm, { JsonFormRef } from './JsonForm';
 import QueueAnim from 'rc-queue-anim';
-import EmulationEdit from '@/components/EmulationEdit';
+import EmulationEdit, { IEditEmulation } from './EmulationEdit';
 
 declare interface EmulationListModalProps {
     visible: boolean;
@@ -39,6 +39,9 @@ declare interface EmulationListModalProps {
 
 const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
     const [activeKey, setActiveKey] = useState('1');
+
+    const editFormRef = useRef<JsonFormRef>(null);
+
     useMemo(() => {
         if (visible) {
             setActiveKey('1');
@@ -46,15 +49,17 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
     }, [visible]);
 
     const [editInstance, setEditInstance] = useState<
-        EmulationInstance | undefined
+        IEditEmulation | undefined
     >(undefined);
 
     const formRef = useRef<JsonFormRef>(null);
+
     const {
         emulationList,
         emulationTypeList,
         emulationTypeMap,
         updateEmulationList,
+        updateEmulation,
     } = useContext(Context);
 
     let visibleList = useMemo(() => {
@@ -140,26 +145,44 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
     }, []);
 
     const onOKey = useCallback(() => {
-        if (activeKey === '1') {
-            onCancel();
-        } else {
-            formRef.current!.validateFields().then(values => {
-                const { deviceType, deviceName } = values;
-                const emuInstance = new EmuInstance(
-                    deviceType,
-                    true,
-                    deviceName,
-                );
-                const visibleListClone = Array.from(visibleList);
-                const hideListClone = Array.from(hideList);
-                const items = [emuInstance]
-                    .concat(visibleListClone)
-                    .concat(hideListClone);
-                updateEmulationList(items);
-            });
-            onCancel();
+        switch (activeKey) {
+            case '1':
+                onCancel();
+                break;
+            case '2':
+                formRef.current!.validateFields().then(values => {
+                    const { deviceType, deviceName } = values;
+                    const emuInstance = new EmuInstance(
+                        deviceType,
+                        true,
+                        deviceName,
+                    );
+                    const visibleListClone = Array.from(visibleList);
+                    const hideListClone = Array.from(hideList);
+                    const items = [emuInstance]
+                        .concat(visibleListClone)
+                        .concat(hideListClone);
+                    updateEmulationList(items);
+                });
+                onBack();
+                break;
+            case '3':
+                // update
+                editFormRef.current!.validateFields().then(values => {
+                    const { deviceName, width, height, userAgent } = values;
+                    const { id } = editInstance!;
+                    updateEmulation(id, {
+                        deviceName,
+                        width,
+                        height,
+                        userAgent,
+                        id,
+                    });
+                    onBack();
+                });
+                break;
         }
-    }, [activeKey]);
+    }, [activeKey, editInstance]);
 
     const onBack = useCallback(() => {
         setActiveKey('1');
@@ -195,7 +218,7 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
         [emulationList],
     );
 
-    const onEdit = useCallback((emulation: EmulationInstance) => {
+    const onEdit = useCallback((emulation: IEditEmulation) => {
         setEditInstance(emulation);
         setActiveKey('3');
     }, []);
@@ -238,6 +261,9 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                 index,
                                                 deviceType,
                                                 deviceName,
+                                                width: customWidth,
+                                                height: customHeight,
+                                                userAgent: customUserAgent,
                                                 ...extra
                                             }) => {
                                                 const emulationType =
@@ -249,6 +275,7 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                     type,
                                                     width,
                                                     height,
+                                                    userAgent,
                                                 } = emulationType;
                                                 return (
                                                     <Draggable
@@ -275,9 +302,18 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                                                     {
                                                                                         id,
                                                                                         index,
-                                                                                        deviceType,
-                                                                                        deviceName,
-                                                                                        ...extra,
+                                                                                        deviceName:
+                                                                                            deviceName ||
+                                                                                            deviceType,
+                                                                                        userAgent:
+                                                                                            customUserAgent ||
+                                                                                            userAgent,
+                                                                                        width:
+                                                                                            customWidth ||
+                                                                                            width,
+                                                                                        height:
+                                                                                            customHeight ||
+                                                                                            height,
                                                                                     },
                                                                                 )
                                                                             }
@@ -305,6 +341,9 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                                                         id,
                                                                                         deviceType,
                                                                                         deviceName,
+                                                                                        width: customWidth,
+                                                                                        height: customHeight,
+                                                                                        userAgent: customUserAgent,
                                                                                         ...extra,
                                                                                     },
                                                                                     index!,
@@ -358,14 +397,12 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                                                 />
 
                                                                                 （
-                                                                                {
-                                                                                    width
-                                                                                }
+                                                                                {customWidth ||
+                                                                                    width}
 
                                                                                 *
-                                                                                {
-                                                                                    height
-                                                                                }
+                                                                                {customHeight ||
+                                                                                    height}
 
                                                                                 ）
                                                                             </>
@@ -396,6 +433,9 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                 index,
                                                 deviceType,
                                                 deviceName,
+                                                width: customWidth,
+                                                height: customHeight,
+                                                userAgent: customUserAgent,
                                                 ...extra
                                             }) => {
                                                 const emulationType =
@@ -407,6 +447,7 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                     type,
                                                     width,
                                                     height,
+                                                    userAgent,
                                                 } = emulationType;
                                                 return (
                                                     <Draggable
@@ -436,9 +477,18 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                                                     {
                                                                                         id,
                                                                                         index,
-                                                                                        deviceType,
-                                                                                        deviceName,
-                                                                                        ...extra,
+                                                                                        deviceName:
+                                                                                            deviceName ||
+                                                                                            deviceType,
+                                                                                        userAgent:
+                                                                                            customUserAgent ||
+                                                                                            userAgent,
+                                                                                        width:
+                                                                                            customWidth ||
+                                                                                            width,
+                                                                                        height:
+                                                                                            customHeight ||
+                                                                                            height,
                                                                                     },
                                                                                 )
                                                                             }
@@ -463,6 +513,9 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                                                         id,
                                                                                         deviceType,
                                                                                         deviceName,
+                                                                                        width: customWidth,
+                                                                                        height: customHeight,
+                                                                                        userAgent: customUserAgent,
                                                                                         ...extra,
                                                                                     },
                                                                                     index!,
@@ -516,14 +569,12 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                                                                                 />
 
                                                                                 （
-                                                                                {
-                                                                                    width
-                                                                                }
+                                                                                {customWidth ||
+                                                                                    width}
 
                                                                                 *
-                                                                                {
-                                                                                    height
-                                                                                }
+                                                                                {customHeight ||
+                                                                                    height}
 
                                                                                 ）
                                                                             </>
@@ -573,12 +624,13 @@ const EmulationListModal = ({ visible, onCancel }: EmulationListModalProps) => {
                         <EmulationEdit
                             onBack={onBack}
                             emulation={editInstance}
+                            originRef={editFormRef}
                         />
                     ) : null}
                 </QueueAnim>
             </Modal>
         );
-    }, [emulationList, activeKey, emulationTypeList, visible]);
+    }, [emulationList, activeKey, emulationTypeList, visible, editInstance]);
 };
 
 export default EmulationListModal;

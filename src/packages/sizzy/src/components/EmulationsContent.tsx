@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
-import styles from '@/styles/layout.module.less';
-import Emulation from '@/components/Emulation';
-import { Context } from '@/components/Context';
+import styles from '../styles/layout.module.less';
+import Emulation from './Emulation';
+import { Context } from './Context';
 import classNames from 'classnames';
 
 interface EditStageProps {}
@@ -16,19 +16,30 @@ const EmulationsContent: React.FC<EditStageProps> = props => {
                 })}
             >
                 {url
-                    ? emulationList.map(({ deviceType, deviceName, open }) =>
-                          open ? (
-                              <Emulation
-                                  key={deviceName || deviceType}
-                                  deviceType={deviceType}
-                                  deviceName={deviceName}
-                              />
-                          ) : null,
+                    ? emulationList.map(
+                          ({
+                              deviceType,
+                              deviceName,
+                              open,
+                              width,
+                              height,
+                              userAgent,
+                          }) =>
+                              open ? (
+                                  <Emulation
+                                      key={deviceName || deviceType}
+                                      deviceType={deviceType}
+                                      deviceName={deviceName}
+                                      width={width}
+                                      height={height}
+                                      userAgent={userAgent}
+                                  />
+                              ) : null,
                       )
                     : null}
             </div>
         );
-    }, [focusEmulationId, url]);
+    }, [focusEmulationId, url, emulationList]);
 };
 
 export default EmulationsContent;

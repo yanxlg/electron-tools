@@ -6,7 +6,7 @@ import { FormItemLabelProps } from 'antd/es/form/FormItemLabel';
 import RichInput, { RichType } from '../../RichInput';
 import { InputProps as AntInputProps } from 'antd/es/input';
 import formStyles from '../form.module.less';
-import { FormatterType } from '@/utils/formatter';
+import { FormatterType } from '../../../utils/formatter';
 
 export type InputType = RichType;
 const typeList = ['input', 'integer', 'number', 'positiveInteger'];

@@ -7,8 +7,8 @@ import {
     MinusOutlined,
     PlusOutlined,
 } from '@ant-design/icons/lib';
-import Icons from '@/components/IconFont';
-import { Context } from '@/components/Context';
+import Icons from './IconFont';
+import { Context } from './Context';
 import classNames from 'classnames';
 import { Slider } from 'antd';
 

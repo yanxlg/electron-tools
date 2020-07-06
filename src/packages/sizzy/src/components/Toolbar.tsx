@@ -8,9 +8,9 @@ import React, {
 } from 'react';
 import { Input, Select, Popover, Menu } from 'antd';
 import classNames from 'classnames';
-import styles from '@/styles/toolbar.module.less';
-import { Context } from '@/components/Context';
-import Icons from '@/components/IconFont';
+import styles from '../styles/toolbar.module.less';
+import { Context } from './Context';
+import Icons from './IconFont';
 import {
     PlusOutlined,
     UnorderedListOutlined,
@@ -21,11 +21,11 @@ import { SettingOutlined } from '@ant-design/icons/lib';
 const { ipcRenderer } = window.require('electron');
 
 import scrollToElementJs from 'raw-loader!babel-loader!../jsTemplate/scrollToElement';
-import EmulationEditModal from '@/components/EmulationEditModal';
-import EmulationTypeModal from '@/components/EmulationTypeModal';
-import useModal from '@/hooks/useModal';
+import EmulationEditModal from './EmulationEditModal';
+import EmulationTypeModal from './EmulationTypeModal';
+import useModal from '../hooks/useModal';
 import { ClickParam } from 'antd/es/menu';
-import EmulationListModal from '@/components/EmulationListModal';
+import EmulationListModal from './EmulationListModal';
 
 declare interface ToolbarProps {}
 

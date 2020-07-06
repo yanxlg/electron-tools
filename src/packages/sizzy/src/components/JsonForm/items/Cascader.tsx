@@ -5,7 +5,7 @@ import { FormInstance, Rule } from 'antd/es/form';
 import { FormItemLabelProps } from 'antd/es/form/FormItemLabel';
 import formStyles from '../form.module.less';
 import { CascaderProps as AntdCascaderProps } from 'antd/es/cascader/index';
-import { FormatterType } from '@/utils/formatter';
+import { FormatterType } from '../../../utils/formatter';
 import { CascaderOptionType } from 'antd/es/cascader';
 
 export type CascaderType = 'cascader';

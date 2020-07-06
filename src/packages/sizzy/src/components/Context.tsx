@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import emulations from '@/emulations';
-import EmulationInstance from '@/instance/EmulationInstance';
-import EmuInstance from '@/instance/EmulationInstance';
+import emulations from '../emulations';
+import EmuInstance from '../instance/EmulationInstance';
 const { ipcRenderer } = window.require('electron');
 
 const noop = () => {};
@@ -39,6 +38,7 @@ const Context = React.createContext<ContextData>({
         emulationType: EmulationType,
     ) => Promise<any>,
     updateEmulationList: noop,
+    updateEmulation: noop,
     setZoom: noop,
 });
 
@@ -69,6 +69,7 @@ declare interface ContextData extends AppConfig {
     addEmulationType: (emulationType: EmulationType) => Promise<any>;
     removeEmulationType: (emulationType: EmulationType) => Promise<any>;
     updateEmulationList: (emulationList: EmuInstance[]) => void;
+    updateEmulation: (id: string, config: Partial<EmulationInstance>) => void;
     setZoom: (zoom: number) => void;
 }
 
@@ -208,6 +209,21 @@ const Provider: React.FC = ({ children }) => {
         },
         updateEmulationList: (emulationList: EmuInstance[]) => {
             emulationInstanceList = emulationList;
+            setStore(store => {
+                return Object.assign({}, store, {
+                    emulationList: ([] as EmulationInstance[]).concat(
+                        emulationInstanceList,
+                    ),
+                });
+            });
+            return ipcRenderer.invoke('updateConfig', {
+                emulationList: emulationInstanceList,
+            });
+        },
+        updateEmulation: (id: string, config: Partial<EmulationInstance>) => {
+            emulationInstanceList
+                .find(instance => instance.id === id)
+                ?.updateConfig(config);
             setStore(store => {
                 return Object.assign({}, store, {
                     emulationList: ([] as EmulationInstance[]).concat(

@@ -5,7 +5,7 @@ import { FormItemLabelProps } from 'antd/es/form/FormItemLabel';
 import { FormInstance, Rule } from 'antd/es/form';
 import formStyles from '../form.module.less';
 import classNames from 'classnames';
-import { FormatterType } from '@/utils/formatter';
+import { FormatterType } from '../../../utils/formatter';
 
 export type DateRangerType = 'dateRanger';
 const typeList = ['dateRanger'];

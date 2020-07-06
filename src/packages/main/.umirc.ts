@@ -1,4 +1,5 @@
 import { defineConfig } from 'umi';
+import path from 'path';
 
 const shajs = require('sha.js');
 
@@ -13,10 +14,10 @@ export default defineConfig({
     antd: {
         dark: true, // 开启暗色主题
     },
-    routes: [{ exact: false, component: '@/pages/index' }],
     publicPath: './',
     runtimePublicPath: true,
-    outputPath: '../../../static/packages/sizzy',
+    outputPath: '../../../static/packages/main',
+    history: { type: 'hash' },
     locale: {
         antd: true, // 需要设置为true，否则antd会使用默认语言en-US
         title: false,
@@ -56,6 +57,21 @@ export default defineConfig({
         },
     },
     chainWebpack(memo, { env, webpack, createCSSRule }) {
+        const babelOptions = memo.module
+            .rule('js')
+            .use('babel-loader')
+            .get('options');
+        const jsonAppDir = path.join(process.cwd(), '../json/src');
+        const sizzyAppDir = path.join(process.cwd(), '../sizzy/src');
+        memo.module
+            .rule('json_app')
+            .test(/\.(js|mjs|jsx|ts|tsx)$/)
+            .include.add(jsonAppDir)
+            .add(sizzyAppDir)
+            .end()
+            .use('babel-loader')
+            .loader(require.resolve('babel-loader'))
+            .options(babelOptions);
         // memo.resolve.extensions.add('.module.less');
         memo.plugin('antd-dayjs-webpack-plugin').use(
             require('antd-dayjs-webpack-plugin'),

@@ -5,7 +5,7 @@ import { FormInstance, Rule } from 'antd/es/form';
 import { FormItemLabelProps } from 'antd/es/form/FormItemLabel';
 import { TextAreaProps as AntTextAreaProps } from 'antd/es/input';
 import formStyles from '../form.module.less';
-import { FormatterType } from '@/utils/formatter';
+import { FormatterType } from '../../../utils/formatter';
 
 const { TextArea } = Input;
 

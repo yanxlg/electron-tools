@@ -5,7 +5,7 @@ import { FormInstance, Rule } from 'antd/es/form';
 import { FormItemLabelProps } from 'antd/es/form/FormItemLabel';
 import formStyles from '../form.module.less';
 import { SelectProps as AntdSelectProps } from 'antd/es/select/index';
-import { FormatterType } from '@/utils/formatter';
+import { FormatterType } from '../../../utils/formatter';
 
 export declare interface IOptionItem {
     name: string;

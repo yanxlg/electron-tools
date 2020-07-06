@@ -21,8 +21,6 @@
     "config/**/*",
     ".umirc.ts",
       "typings/index.d.ts",
-    "../../../typings/app.config.d.ts",
-      "../json/src",
-      "../sizzy/src"
+    "../../../typings/app.config.d.ts"
   ]
 }

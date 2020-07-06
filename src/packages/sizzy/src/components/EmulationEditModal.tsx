@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Modal } from 'antd';
-import JsonForm from '@/components/JsonForm';
+import JsonForm from './JsonForm';
 
 declare interface EmulationEditModalProps {
     visible: boolean;
