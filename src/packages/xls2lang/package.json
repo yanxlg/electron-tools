@@ -1,0 +1,49 @@
+{
+    "private": true,
+    "scripts": {
+        "start": "umi dev",
+        "build": "umi build",
+        "postinstall": "umi generate tmp",
+        "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+        "test": "umi-test",
+        "test:coverage": "umi-test --coverage"
+    },
+    "gitHooks": {
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,jsx,less,md,json}": [
+            "prettier --write"
+        ],
+        "*.ts?(x)": [
+            "prettier --parser=typescript --write"
+        ]
+    },
+    "dependencies": {
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "react-beautiful-dnd": "^13.0.0",
+        "antd": "^4.3.1",
+        "@ant-design/icons": "^4.2.1",
+        "jsoneditor": "^9.0.0",
+        "brace": "^0.11.1"
+    },
+    "devDependencies": {
+        "@types/jsoneditor": "^8.6.0",
+        "@types/animejs": "^3.1.1",
+        "@types/electron": "^1.6.10",
+        "core-js": "^3.6.5",
+        "@types/react": "^16.9.35",
+        "@types/react-dom": "^16.9.8",
+        "lint-staged": "^10.0.7",
+        "prettier": "^1.19.1",
+        "@umijs/preset-react": "1.x",
+        "@umijs/test": "^3.2.3",
+        "umi": "^3.2.3",
+        "yorkie": "^2.0.0",
+        "@types/react-beautiful-dnd": "^13.0.0",
+        "@types/classnames": "^2.2.10",
+        "raw-loader": "^4.0.1",
+        "antd-dayjs-webpack-plugin": "^1.0.0"
+    }
+}

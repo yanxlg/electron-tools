@@ -1,0 +1,48 @@
+.main {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.upload {
+    width: 600px;
+    height: 300px;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.header {
+    :global th {
+        background-color: cadetblue !important;
+    }
+}
+
+.lang-row {
+    background-color: cornflowerblue !important;
+}
+
+.icon {
+    color: #ccc;
+    font-size: 24px;
+    margin-right: 8px;
+    cursor: pointer;
+    &:hover {
+        color: palegreen;
+    }
+}
+
+.editor {
+    position: relative;
+    width: 100%;
+    height: calc(~'100vh - 130px');
+    &-content {
+        position: relative;
+        width: 100%;
+        height: calc(~'100vh - 180px');
+    }
+}

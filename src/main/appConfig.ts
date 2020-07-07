@@ -4,7 +4,6 @@ import defaultConfig from './config/default';
 import * as path from 'path';
 
 const init = async () => {
-    console.log(storage.getDataPath());
     // init
     ////// default.conf
     const hasDefaultConfig = await storage.has('default');
@@ -20,16 +19,14 @@ const init = async () => {
     }
 
     let userConfig = await storage.get('user');
-    console.log(userConfig);
 
-    ipcMain.on('getConfig', event => {
+    ipcMain.on('getConfig', (event) => {
         event.returnValue = {
             ...defaultConfig,
             ...userConfig,
         };
     });
     ipcMain.handle('updateConfig', (event, args) => {
-        console.log(args);
         return storage.set('user', Object.assign({}, userConfig, args));
     });
 };

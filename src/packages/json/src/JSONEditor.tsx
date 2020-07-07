@@ -1,47 +1,41 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './styles/index.module.less';
-import * as ace from 'brace';
-import JSONEditor from 'jsoneditor';
-import 'jsoneditor/dist/jsoneditor.min.css';
-import 'brace/mode/json';
-import 'brace/theme/terminal';
+import JSONEditor from '../../xls2lang/src/pages/components/JSONEditor';
 import 'brace/theme/chrome';
+import Editor from '../../xls2lang/src/pages/components/Editor';
 
-import 'brace/mode/javascript';
-import 'brace/theme/monokai';
+const JSONPage: FC = (props) => {
+    const [json, setJson] = useState();
 
-const JSONPage: FC = props => {
-    useEffect(() => {
-        const editor1 = ace.edit('javascript-editor');
-        editor1.getSession().setMode('ace/mode/javascript');
-        editor1.setTheme('ace/theme/monokai');
-
-        editor1.on('change', ev => {
-            try {
-                const json = JSON.parse(editor1.getValue());
-                console.log(json);
-                editor.set(json);
-            } catch (e) {
-                // editor.update(e.message);
-            }
-        });
-        const container = document.getElementById('jsoneditor') as HTMLDivElement;
-        const editor = new JSONEditor(container, {
-            mode: 'view',
-            modes: ['code', 'form', 'tree', 'view'],
-            theme: 'ace/theme/chrome',
-            search: false,
-            mainMenuBar: false,
-            navigationBar: false,
-        });
-        editor.set(undefined);
+    const onChange = useCallback((value?: string) => {
+        try {
+            const json = JSON.parse(value!);
+            setJson(json);
+        } catch (e) {
+            // editor.update(e.message);
+        }
     }, []);
-    return (
-        <div className={styles.main}>
-            <div id={'javascript-editor'} className={styles.left} />
-            <div id="jsoneditor" className={styles.right} />
-        </div>
-    );
+
+    return useMemo(() => {
+        return (
+            <div className={styles.main}>
+                <div id={'javascript-editor'} className={styles.left}>
+                    <Editor onChange={onChange} />
+                </div>
+                <div className={styles.right}>
+                    <JSONEditor
+                        value={json}
+                        mode={'view'}
+                        modes={['code', 'form', 'tree', 'view']}
+                        theme={'ace/theme/chrome'}
+                        search={false}
+                        mainMenuBar={false}
+                        navigationBar={false}
+                    />
+                </div>
+            </div>
+        );
+    }, [json]);
 };
 
 export default JSONPage;

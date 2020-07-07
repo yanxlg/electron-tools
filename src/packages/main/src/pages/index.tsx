@@ -5,7 +5,7 @@ import { history } from '@@/core/history';
 
 window.require = window.require || (() => {});
 
-const Main: FC = props => {
+const Main: FC = (props) => {
     return (
         <div className={styles.main}>
             <Card
@@ -23,6 +23,14 @@ const Main: FC = props => {
                 }}
             >
                 JSON
+            </Card>
+            <Card
+                className={styles.card}
+                onClick={() => {
+                    history.push('/xls2lang');
+                }}
+            >
+                Xls2Lang
             </Card>
         </div>
     );

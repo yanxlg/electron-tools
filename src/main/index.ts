@@ -39,8 +39,7 @@ async function createMainWindow() {
                 slashes: true,
             }),
         );
-
-        // window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+        // window.loadURL(`http://localhost:4001`);
     } else {
         window.loadURL(
             formatUrl({

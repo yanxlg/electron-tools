@@ -1,6 +1,12 @@
 import { ipcMain, webContents } from 'electron';
 import * as browserSync from 'browser-sync';
 
+const xlsx = require('node-xlsx');
+const prettier = require('prettier');
+const fs = require('fs');
+const path = require('path');
+const fsExtra = require('fs-extra');
+
 const bs = browserSync.create('http');
 bs.init({
     server: true,
@@ -17,7 +23,7 @@ ipcMain.on('open-dev', (event, args) => {
 ipcMain.on('executeJs', (event, args) => {
     // webview注入js
     const contentsArray = webContents.getAllWebContents();
-    contentsArray.map(contents => {
+    contentsArray.map((contents) => {
         const type = contents.getType();
         if (type === 'webview') {
             contents.executeJavaScript(args);
@@ -105,10 +111,9 @@ ipcMain.on('inspect', (event, args) => {
     const { webviewId } = args;
     const contents = webContents.fromId(webviewId);
     contents.debugger.sendCommand('Inspector.enable');
-    console.log('inspect');
     contents.openDevTools();
 
-    ipcMain.on('mouse', function(event, e) {
+    ipcMain.on('mouse', function (event, e) {
         contents.inspectElement(e.x, e.y);
     });
 
@@ -124,4 +129,40 @@ ipcMain.on('touch', (event, args) => {
         configuration: 'mobile',
     });
     event.returnValue = 'success';
+});
+
+ipcMain.on('xls2json', (event, args) => {
+    // const xlsFile = path.resolve(args.path);
+    const sheets = xlsx.parse(args.path);
+    const fileMap = {
+        en: 'en',
+        ar: 'ar',
+        cs: 'cs',
+        da: 'da',
+        de: 'de',
+        es: 'es',
+        fi: 'fi',
+        fr: 'fr',
+        it: 'it',
+        he: 'he',
+        nl: 'nl',
+        no: 'no',
+        pl: 'pl',
+        pt: 'pt',
+        ru: 'ru',
+        sk: 'sk',
+        se: 'sv',
+        tr: 'tr',
+        tw: 'tw',
+        id: 'id',
+        ja: 'ja',
+    };
+
+    event.returnValue = sheets;
+});
+
+ipcMain.on('prettier', (event, args) => {
+    event.returnValue = prettier.format(args.value, {
+        parser: 'json',
+    });
 });
