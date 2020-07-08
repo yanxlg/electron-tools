@@ -26,6 +26,7 @@
         ".umirc.ts",
         "typings/index.d.ts",
         "../../../typings/app.config.d.ts",
-        "../xls2lang/src"
+        "../xls2lang/src",
+        "../main/src/pages/components"
     ]
 }

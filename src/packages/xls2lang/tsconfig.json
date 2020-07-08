@@ -20,6 +20,7 @@
         ".umirc.ts",
         "typings/index.d.ts",
         "../../../typings/app.config.d.ts",
-        "../sizzy/src/components"
+        "../sizzy/src/components",
+        "../main/src/pages/components"
     ]
 }

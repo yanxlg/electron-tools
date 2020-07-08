@@ -4,12 +4,7 @@ import { Upload, Table, Tabs } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/lib/upload/interface';
 import Icons from '../../../sizzy/src/components/IconFont/index';
-import 'brace/theme/chrome';
-import 'brace/mode/json';
-import 'brace/theme/chrome';
-
-import JSONEditor from './components/JSONEditor';
-import Editor from './components/Editor';
+import Editor from '../../../main/src/pages/components/Editor';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -120,14 +115,18 @@ const Xls2Lang: FC = (props) => {
                                                     <div className={styles.editorContent}>
                                                         {codeType === 'json' ? (
                                                             <Editor
-                                                                mode="ace/mode/json"
-                                                                theme="ace/theme/chrome"
+                                                                key={'json'}
+                                                                options={{
+                                                                    mode: 'application/json',
+                                                                }}
                                                                 value={getJson(keys, values)}
                                                             />
                                                         ) : codeType === 'js' ? (
                                                             <Editor
-                                                                mode="ace/mode/json"
-                                                                theme="ace/theme/chrome"
+                                                                key={'javascript'}
+                                                                options={{
+                                                                    mode: 'javascript',
+                                                                }}
                                                                 value={
                                                                     'export default ' +
                                                                     getJson(keys, values)
@@ -135,8 +134,10 @@ const Xls2Lang: FC = (props) => {
                                                             />
                                                         ) : (
                                                             <Editor
-                                                                mode="ace/mode/json"
-                                                                theme="ace/theme/chrome"
+                                                                key={'typescript'}
+                                                                options={{
+                                                                    mode: 'application/typescript',
+                                                                }}
                                                                 value={
                                                                     'export default ' +
                                                                     getJson(keys, values)

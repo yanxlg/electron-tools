@@ -29,9 +29,13 @@
         "dayjs": "^1.8.28",
         "rc-queue-anim": "^1.8.5",
         "jsoneditor": "^9.0.0",
-        "brace": "^0.11.1"
+        "react-codemirror2": "^7.2.1",
+        "codemirror": "^5.55.0",
+        "jsonlint": "^1.6.3",
+        "react-json-view": "^1.19.1"
     },
     "devDependencies": {
+        "@types/codemirror": "^0.0.96",
         "@types/jsoneditor": "^8.6.0",
         "@types/animejs": "^3.1.1",
         "@types/electron": "^1.6.10",

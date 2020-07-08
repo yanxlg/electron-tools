@@ -1,8 +1,6 @@
 import React from 'react';
-import JSON from '../../../json/src/JSONEditor';
-
-// export default JSON;
+import JSONViewer from '../../../json/src/JSONViewer';
 
 export default () => {
-    return <JSON />;
+    return <JSONViewer />;
 };

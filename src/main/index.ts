@@ -25,6 +25,7 @@ async function createMainWindow() {
     });
 
     const contents = window.webContents;
+    contents.canGoBack();
     window.maximize();
 
     if (isDevelopment) {
@@ -32,14 +33,14 @@ async function createMainWindow() {
     }
 
     if (isDevelopment) {
-        window.loadURL(
+        /* window.loadURL(
             url.format({
                 pathname: path.join(__dirname, '../static/packages/main/index.html'),
                 protocol: 'file:',
                 slashes: true,
             }),
-        );
-        // window.loadURL(`http://localhost:4001`);
+        );*/
+        window.loadURL(`http://localhost:4001`);
     } else {
         window.loadURL(
             formatUrl({
