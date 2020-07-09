@@ -14,7 +14,7 @@ const Main: FC = (props) => {
                     history.push('/sizzy');
                 }}
             >
-                Sizzy
+                Sizzy Test
             </Card>
             <Card
                 className={styles.card}
@@ -22,7 +22,7 @@ const Main: FC = (props) => {
                     history.push('/json');
                 }}
             >
-                JSON
+                JSON Viewer
             </Card>
             <Card
                 className={styles.card}
@@ -30,7 +30,15 @@ const Main: FC = (props) => {
                     history.push('/xls2lang');
                 }}
             >
-                Xls2Lang
+                Lang Parser
+            </Card>
+            <Card
+                className={styles.card}
+                onClick={() => {
+                    history.push('/base64');
+                }}
+            >
+                Base64
             </Card>
         </div>
     );

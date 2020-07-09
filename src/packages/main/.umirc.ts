@@ -69,6 +69,7 @@ export default defineConfig({
             .include.add(jsonAppDir)
             .add(sizzyAppDir)
             .add(path.join(process.cwd(), '../xls2lang/src'))
+            .add(path.join(process.cwd(), '../base64/src'))
             .end()
             .use('babel-loader')
             .loader(require.resolve('babel-loader'))
